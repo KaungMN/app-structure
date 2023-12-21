@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { decrement, increment, incrementByAmount } from '../redux/counter'
+import { addToDo } from '../redux/toDo'
 
 const firstName = 'Kaung'
 const lastName = 'Myat'
@@ -14,6 +15,7 @@ function getTitle(title) {
 function Home() {
     const [yoeYoeCount, setYoeYoeCount] = useState(0)
     const { count } = useSelector((state) => state.counter)
+    const { toDoList } = useSelector((state) => state.toDo.list)
     const dispatch = useDispatch()
     return (
         <>
@@ -34,6 +36,14 @@ function Home() {
                 <button onClick={() => dispatch(incrementByAmount(5))}>+5</button> <br />
                 <button onClick={() => dispatch(increment())}>+</button> <br />
                 <button onClick={() => dispatch(decrement())}>-</button>
+            </div>
+            <div>
+                <h3>To-do lists</h3>
+                <form onSubmit={() => dispatch(addToDo('kaung'))}>
+                    <input type="text" />
+                    <button type="submit">Add</button>
+                </form>
+                <li>{toDoList}</li>
             </div>
         </>
     )
