@@ -14,9 +14,12 @@ function getTitle(title) {
 
 function Home() {
     const [yoeYoeCount, setYoeYoeCount] = useState(0)
+    const [toDoOnChange, setToDoOnChange] = useState('')
     const { count } = useSelector((state) => state.counter)
-    const { toDoList } = useSelector((state) => state.toDo.list)
+    const toDoList = useSelector((state) => state.toDo.list)
+    console.log(toDoList)
     const dispatch = useDispatch()
+
     return (
         <>
             <div>
@@ -39,11 +42,19 @@ function Home() {
             </div>
             <div>
                 <h3>To-do lists</h3>
-                <form onSubmit={() => dispatch(addToDo('kaung'))}>
-                    <input type="text" />
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault()
+                        dispatch(addToDo(toDoOnChange))
+                        setToDoOnChange('')
+                    }}
+                >
+                    <input type="text" value={toDoOnChange} onChange={(event) => setToDoOnChange(event.target.value)} />
                     <button type="submit">Add</button>
                 </form>
-                <li>{toDoList}</li>
+                {toDoList.map((item, index) => (
+                    <li key={index}>{item}</li>
+                ))}
             </div>
         </>
     )
